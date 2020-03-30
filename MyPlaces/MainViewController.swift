@@ -38,6 +38,8 @@ class MainViewController: UITableViewController {
         return cell
     }
     
+    @IBAction func cancelAction(_ segue: UIStoryboardSegue) {} // кнопка cancel с окна добавления места
+    
     /*
     // MARK: - Navigation
 
