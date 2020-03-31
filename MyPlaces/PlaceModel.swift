@@ -6,27 +6,33 @@
 //  Copyright © 2020 Sergey Mikovoz. All rights reserved.
 //
 
-import UIKit
+import RealmSwift
 
-struct Place {
+class Place: Object {
     
-    var name: String
-    var location: String?
-    var type: String?
-    var image: UIImage?
-    var restaurantImage: String?
+    @objc dynamic var name = ""
+    @objc dynamic var location: String?
+    @objc dynamic var type: String?
+    @objc dynamic var imageData: Data?
     
-    static let restaurantNames = ["Балкан", "Бочка", "Вкусные истории", "Дастархан", "Индокитай", "Классик", "Шок", "Bonsai"]
+    let restaurantNames = ["Балкан", "Бочка", "Вкусные истории", "Дастархан", "Индокитай", "Классик", "Шок", "Bonsai"]
     
-    static func getPlaces() -> [Place] {
-        
-        var places = [Place]()
+    func savePlaces() {
         
         for place in restaurantNames {
-            places.append(Place(name: place, location: "Минск", type: "Ресторан", image: nil, restaurantImage: place))
-        }
         
-        return places
+            let image = UIImage(named: place)
+            guard let imageData = image?.pngData() else { return }
+            
+            let newPlace = Place()
+            
+            newPlace.name = place
+            newPlace.location = "Minsk"
+            newPlace.type = "Restaurant"
+            newPlace.imageData = imageData
+            
+            StorageManager.saveObject(newPlace)
+        }
     }
 }
 
