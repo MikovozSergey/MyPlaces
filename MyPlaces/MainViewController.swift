@@ -17,7 +17,7 @@ class MainViewController: UITableViewController {
         super.viewDidLoad()
         places = realm.objects(Place.self) // вызываем из базы наши объекты
         
-        //tableView.tableFooterView = UIView()
+        tableView.tableFooterView = UIView()
             
     }
 
@@ -50,6 +50,21 @@ class MainViewController: UITableViewController {
         newPlaceVC.saveNewPlace()
         tableView.reloadData() // обновляем интерфейс
     }
+    
+    // MARK: - TableView Delegate
+    
+  override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let place = places[indexPath.row]
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") {  (contextualAction, view, boolValue) in
+
+            StorageManager.deleteObject(place)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+        let swipeActions = UISwipeActionsConfiguration(actions: [deleteAction])
+
+        return swipeActions
+    } // удаление объектов из бд и из списка
     
     
     /*
