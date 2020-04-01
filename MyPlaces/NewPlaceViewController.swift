@@ -10,6 +10,7 @@ import UIKit
 
 class NewPlaceViewController: UITableViewController {
 
+    var currentPlace: Place?
     var imageIsChanged = false // если пользователь использует свое изорбражение меняем его на true
 
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -26,6 +27,7 @@ class NewPlaceViewController: UITableViewController {
         tableView.tableFooterView = UIView()
         saveButton.isEnabled = false
         placeName.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
+        setupEditScreen()
     }
 
 
@@ -65,7 +67,7 @@ class NewPlaceViewController: UITableViewController {
         }
     }
     
-    func saveNewPlace() { // по нажатию "Save" передаем значения наших полей в параметры модели
+    func savePlace() { // по нажатию "Save" передаем значения наших полей в параметры модели
         
         var image: UIImage?
         
@@ -79,7 +81,42 @@ class NewPlaceViewController: UITableViewController {
         
         let newPlace = Place(name: placeName.text!, location: placeLocation.text, type: placeType.text, imageData: imageData)
         
-        StorageManager.saveObject(newPlace)
+        if currentPlace != nil {
+            try! realm.write {
+                currentPlace?.name = newPlace.name
+                currentPlace?.location = newPlace.location
+                currentPlace?.type = newPlace.type
+                currentPlace?.imageData = newPlace.imageData
+            }
+        } else {
+                StorageManager.saveObject(newPlace)
+            }
+        }
+    
+    private func setupEditScreen() { // экран редактирования объекта
+        if currentPlace != nil { // значит находимся в окне редактирования записи
+            
+            setupNavigationBar()
+            imageIsChanged = true
+            
+            guard let data = currentPlace?.imageData, let image = UIImage(data: data) else { return }
+            
+            placeImage.image = image
+            placeImage.contentMode = .scaleAspectFill
+            placeName.text = currentPlace?.name
+            placeLocation.text = currentPlace?.location
+            placeType.text = currentPlace?.type
+        }
+    }
+    
+    private func setupNavigationBar() { // изменение навигации в окне редактирования объекта
+        
+        if let topItem = navigationController?.navigationBar.topItem {
+            topItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil) // убираем надпись возврата
+        }
+        navigationItem.leftBarButtonItem = nil
+        title = currentPlace?.name
+        saveButton.isEnabled = true
     }
     
     @IBAction func cancelAction(_ sender: Any) { // возвращаемся на главный экран и выгружаем из памяти newPlaceViewController

@@ -67,6 +67,7 @@
                                     <outlet property="locationLabel" destination="UIn-iM-ntV" id="0eF-BM-9OC"/>
                                     <outlet property="nameLabel" destination="PjX-al-sFe" id="JE1-OK-6U4"/>
                                     <outlet property="typeLabel" destination="eiD-zg-agy" id="LvW-eX-4cT"/>
+                                    <segue destination="zcx-Mp-QY8" kind="show" identifier="showDetail" id="OlE-Fu-2P6"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -92,7 +93,7 @@
             <objects>
                 <tableViewController id="zcx-Mp-QY8" customClass="NewPlaceViewController" customModule="MyPlaces" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Ig5-83-9UP">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <inset key="separatorInset" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
@@ -255,7 +256,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E2F-tn-vcx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="MLh-CT-fLX" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1420" y="-160.56971514242881"/>
+            <point key="canvasLocation" x="633" y="-77"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="K8x-1l-jFz">
@@ -292,9 +293,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i9t-gC-RwW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="680.79999999999995" y="-159.67016491754123"/>
+            <point key="canvasLocation" x="633" y="-847"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="OlE-Fu-2P6"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="Photo" width="195" height="196"/>
     </resources>

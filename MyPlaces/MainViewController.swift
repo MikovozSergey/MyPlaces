@@ -42,14 +42,6 @@ class MainViewController: UITableViewController {
 
         return cell
     }
-
-    @IBAction func unwindSegue(_ segue: UIStoryboardSegue) { // кнопка cancel с окна добавления места
-
-        guard let newPlaceVC = segue.source as? NewPlaceViewController else { return }
-
-        newPlaceVC.saveNewPlace()
-        tableView.reloadData() // обновляем интерфейс
-    }
     
     // MARK: - TableView Delegate
     
@@ -67,14 +59,23 @@ class MainViewController: UITableViewController {
     } // удаление объектов из бд и из списка
     
     
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) { // Переход к окну редактирования объекта
+        if segue.identifier == "showDetail" {
+            guard let indexPath = tableView.indexPathForSelectedRow else { return }
+            let place = places[indexPath.row]
+            let newPlaceVC = segue.destination as! NewPlaceViewController
+            newPlaceVC.currentPlace = place
+        }
     }
-    */
 
+     
+    @IBAction func unwindSegue(_ segue: UIStoryboardSegue) { // кнопка cancel с окна добавления места
+
+    guard let newPlaceVC = segue.source as? NewPlaceViewController else { return }
+
+    newPlaceVC.savePlace()
+    tableView.reloadData() // обновляем интерфейс
+    }
 }
