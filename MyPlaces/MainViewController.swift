@@ -11,33 +11,61 @@ import RealmSwift
 
 class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    private let searchController = UISearchController(searchResultsController: nil) // для отображения результатов будем использовать тот же view
+    
+    private var places: Results<Place>! // автообновляемый тип контейнера, который возвращает запрашиваемые объекты
+    private var filteredPlaces: Results<Place>! // массив найденных объектов
+    private var ascendingSorting = true // сортировка по возрастанию
+    private var searchBarIsEmpty: Bool {
+        guard let text = searchController.searchBar.text else { return false }
+        return text.isEmpty
+    }
+    private var isFiltering: Bool {
+        return searchController.isActive && !searchBarIsEmpty
+    }
+    
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var segmentControl: UISegmentedControl!
     @IBOutlet weak var reversedSortingButton: UIBarButtonItem!
     
-    
-    var places: Results<Place>!// автообновляемый тип контейнера, который возвращает запрашиваемые объекты
-    var ascendingSorting = true // сортировка по возрастанию
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         places = realm.objects(Place.self) // вызываем из базы наши объекты
         
         tableView.tableFooterView = UIView()
+        
+        // setup the searchController
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
             
     }
 
     // MARK: - Table view data source
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { // кол-во строк
+        
+        if isFiltering {
+            return filteredPlaces.count
+        }
         return places.isEmpty ? 0 : places.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
 
-        let place = places[indexPath.row]
-
+        var place = Place()
+        
+        if isFiltering {
+            place = filteredPlaces[indexPath.row]
+        } else {
+            place = places[indexPath.row]
+        }
+        
         cell.nameLabel.text = place.name
         cell.locationLabel.text = place.location
         cell.typeLabel.text = place.type
@@ -70,7 +98,14 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { // Переход к окну редактирования объекта
         if segue.identifier == "showDetail" {
             guard let indexPath = tableView.indexPathForSelectedRow else { return }
-            let place = places[indexPath.row]
+            let place: Place
+            
+            if isFiltering {
+                place = filteredPlaces[indexPath.row]
+            } else {
+                place = places[indexPath.row]
+            }
+            
             let newPlaceVC = segue.destination as! NewPlaceViewController
             newPlaceVC.currentPlace = place
         }
@@ -108,6 +143,20 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         } else {
             places = places.sorted(byKeyPath: "name", ascending: ascendingSorting)
         }
+        
+        tableView.reloadData()
+    }
+}
+
+extension MainViewController: UISearchResultsUpdating {
+     
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    private func filterContentForSearchText(_ searchText: String) {
+        
+        filteredPlaces = places.filter("name CONTAINS[c] %@ OR location CONTAINS[c] %@ OR type CONTAINS[c] %@", searchText, searchText, searchText)
         
         tableView.reloadData()
     }
