@@ -12,7 +12,12 @@ import RealmSwift
 class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var segmentControl: UISegmentedControl!
+    @IBOutlet weak var reversedSortingButton: UIBarButtonItem!
+    
+    
     var places: Results<Place>!// автообновляемый тип контейнера, который возвращает запрашиваемые объекты
+    var ascendingSorting = true // сортировка по возрастанию
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +75,6 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             newPlaceVC.currentPlace = place
         }
     }
-
      
     @IBAction func unwindSegue(_ segue: UIStoryboardSegue) { // кнопка cancel с окна добавления места
 
@@ -78,5 +82,33 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     newPlaceVC.savePlace()
     tableView.reloadData() // обновляем интерфейс
+    }
+    
+    @IBAction func sortSelection(_ sender: UISegmentedControl) {
+        sorting()
+    }
+    
+    @IBAction func reversedSorting(_ sender: Any) {
+        
+        ascendingSorting.toggle()
+        
+        if ascendingSorting {
+            reversedSortingButton.image = #imageLiteral(resourceName: "AZ")
+        } else {
+            reversedSortingButton.image = #imageLiteral(resourceName: "ZA")
+        }
+        
+        sorting()
+    }
+    
+    private func sorting() {
+        
+        if segmentControl.selectedSegmentIndex == 0 {
+            places = places.sorted(byKeyPath: "date", ascending: ascendingSorting)
+        } else {
+            places = places.sorted(byKeyPath: "name", ascending: ascendingSorting)
+        }
+        
+        tableView.reloadData()
     }
 }
