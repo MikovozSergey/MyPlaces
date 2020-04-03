@@ -185,9 +185,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="85" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="eRI-yx-ZlP">
-                                <rect key="frame" x="0.0" y="83" width="375" height="584"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="85" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eRI-yx-ZlP">
+                                <rect key="frame" x="0.0" y="76" width="375" height="591"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="HAv-Ub-BxR" customClass="CustomTableViewCell" customModule="MyPlaces" customModuleProvider="target">
@@ -251,17 +250,28 @@
                                     <outlet property="delegate" destination="toN-gX-Fhk" id="uin-Q3-fg2"/>
                                 </connections>
                             </tableView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="aaH-jn-G2I">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="aaH-jn-G2I">
                                 <rect key="frame" x="0.0" y="44" width="375" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="8" right="0.0"/>
                                 <segments>
                                     <segment title="Date"/>
-                                    <segment title="Name"/>
+                                    <segment title="showDetail"/>
                                 </segments>
                             </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="aaH-jn-G2I" firstAttribute="top" secondItem="aYw-ei-5rP" secondAttribute="top" id="9Wg-k1-sIY"/>
+                            <constraint firstItem="aaH-jn-G2I" firstAttribute="trailing" secondItem="aYw-ei-5rP" secondAttribute="trailing" id="DLd-Nh-ZlT"/>
+                            <constraint firstItem="aaH-jn-G2I" firstAttribute="leading" secondItem="aYw-ei-5rP" secondAttribute="leading" id="Gn4-WO-mZy"/>
+                            <constraint firstItem="eRI-yx-ZlP" firstAttribute="bottom" secondItem="aYw-ei-5rP" secondAttribute="bottom" id="K21-cK-bGe"/>
+                            <constraint firstItem="aaH-jn-G2I" firstAttribute="top" secondItem="aYw-ei-5rP" secondAttribute="top" id="QOt-8L-ggN"/>
+                            <constraint firstItem="eRI-yx-ZlP" firstAttribute="top" secondItem="aaH-jn-G2I" secondAttribute="bottom" constant="1" id="WdM-y5-y9f"/>
+                            <constraint firstItem="aaH-jn-G2I" firstAttribute="leading" secondItem="aYw-ei-5rP" secondAttribute="leading" id="dMd-yD-r6a"/>
+                            <constraint firstItem="eRI-yx-ZlP" firstAttribute="trailing" secondItem="aYw-ei-5rP" secondAttribute="trailing" id="jCt-ZU-V1U"/>
+                            <constraint firstItem="eRI-yx-ZlP" firstAttribute="leading" secondItem="aYw-ei-5rP" secondAttribute="leading" id="nFo-dV-ZeO"/>
+                            <constraint firstItem="eRI-yx-ZlP" firstAttribute="top" secondItem="aaH-jn-G2I" secondAttribute="bottom" constant="1" id="rWa-Dq-jgY"/>
+                            <constraint firstItem="aaH-jn-G2I" firstAttribute="trailing" secondItem="aYw-ei-5rP" secondAttribute="trailing" id="rpC-qZ-MS9"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="aYw-ei-5rP"/>
                     </view>
                     <navigationItem key="navigationItem" title="My Places" id="Py6-Vo-ONa">
