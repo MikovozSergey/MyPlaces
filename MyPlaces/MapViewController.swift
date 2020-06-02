@@ -10,37 +10,40 @@ import UIKit
 import MapKit
 import CoreLocation
 
+protocol MapViewControllerDelegate {
+    func getAddress(_ address: String?)
+}
+
 class MapViewController: UIViewController {
     
+    var mapViewControllerDelegate: MapViewControllerDelegate?
     var place = Place()
     let annotationIdentifier = "annotationIdentifier"
-    
     let locationManager = CLLocationManager() // менеджер который будет отслеживать местоположение пользователя
-    
     let regionInMeters = 5_000.00
-    
     var incomeSegueIdentifier = ""
 
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var mapPinImage: UIImageView!
-    @IBOutlet var adressLabel: UILabel!
+    @IBOutlet var addressLabel: UILabel!
     @IBOutlet var doneButton: UIButton!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        addressLabel.text = ""
         mapView.delegate = self
         setupMapView()
         checkLocationServices()
     }
     
-    
     @IBAction func centerViewInUserLocation() { // по нажатию на кнопку геолокации, центрируем карту
         
         showUserLocation()
     }
-    
-    @IBAction func doneButtonPressed() {
+    @IBAction func doneButtonPressed() { // при нажатии done мы будем передавать в параметр метода getAddress текущее значение адреса, а потом закрывать VC
+        mapViewControllerDelegate?.getAddress(addressLabel.text)
+        dismiss(animated: true)
     }
     @IBAction func closeVC() {
         dismiss(animated: true)
@@ -51,6 +54,8 @@ class MapViewController: UIViewController {
         if incomeSegueIdentifier == "showPlace" {
             setupPlaceMark()
             mapPinImage.isHidden = true
+            addressLabel.isHidden = true
+            doneButton.isHidden = true
         }
     }
     
@@ -105,7 +110,7 @@ class MapViewController: UIViewController {
         switch CLLocationManager.authorizationStatus() {
         case .authorizedWhenInUse: // геолокация в момент использования
             mapView.showsUserLocation = true
-            if incomeSegueIdentifier == "getAdress" { showUserLocation() }
+            if incomeSegueIdentifier == "getAddress" { showUserLocation() }
             break
         case .denied: // когда приложению отказано использовать службу геолокации
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -131,6 +136,13 @@ class MapViewController: UIViewController {
                                             longitudinalMeters: regionInMeters)
             mapView.setRegion(region, animated: true)
         }
+    }
+    
+    private func getCenterLocation(for mapView: MKMapView) -> CLLocation { // метод для определения координат в центре отображаемой области карты под Pin
+        let latitude = mapView.centerCoordinate.latitude // широта
+        let longitude = mapView.centerCoordinate.longitude // долгота
+        
+        return CLLocation(latitude: latitude, longitude: longitude)
     }
     
     private func showAlert(title: String, message: String) {
@@ -166,6 +178,37 @@ extension MapViewController: MKMapViewDelegate {
         }
         
         return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) { // будет вызываться при каждой смене региона и будет отоброжаться новый адрес
+        let center = getCenterLocation(for: mapView)
+        let geocoder = CLGeocoder() // отвечает за преобразование географических координат и названий
+        
+        geocoder.reverseGeocodeLocation(center) { (placemarks, error) in
+            
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            guard let placemarks = placemarks else { return }
+            
+            let placemark = placemarks.first
+            let streetName = placemark?.thoroughfare // улица
+            let buildNumber = placemark?.subThoroughfare // номер дома
+            
+            DispatchQueue.main.async {
+                if streetName != nil && buildNumber != nil {
+                    self.addressLabel.text = "\(streetName!), \(buildNumber!)"
+                } else if streetName != nil {
+                    self.addressLabel.text = "\(streetName!)"
+                } else {
+                    self.addressLabel.text = ""
+                }
+                
+            }
+            
+        }
     }
 }
 

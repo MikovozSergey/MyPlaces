@@ -121,7 +121,7 @@
                                                     </constraints>
                                                     <state key="normal" image="Placeholder"/>
                                                     <connections>
-                                                        <segue destination="hMv-lp-pFb" kind="presentation" identifier="getAdress" id="Koo-RI-7fl"/>
+                                                        <segue destination="hMv-lp-pFb" kind="presentation" identifier="getAddress" id="Koo-RI-7fl"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -300,7 +300,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="7ZS-bV-aAj"/>
                     <connections>
-                        <outlet property="adressLabel" destination="UaJ-IQ-8iD" id="lh7-dn-ZgL"/>
+                        <outlet property="addressLabel" destination="UaJ-IQ-8iD" id="lh7-dn-ZgL"/>
                         <outlet property="doneButton" destination="fya-aE-qm5" id="HRv-6G-BLi"/>
                         <outlet property="mapPinImage" destination="uhq-J0-fU3" id="BzH-jp-2ZO"/>
                         <outlet property="mapView" destination="Kpg-MN-vne" id="yT6-LH-i4n"/>
@@ -488,7 +488,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="qBi-9g-jly"/>
+        <segue reference="Koo-RI-7fl"/>
         <segue reference="5u4-T9-K3I"/>
     </inferredMetricsTieBreakers>
     <resources>
