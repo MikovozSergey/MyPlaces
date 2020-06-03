@@ -277,9 +277,21 @@
                                     <action selector="doneButtonPressed" destination="hMv-lp-pFb" eventType="touchUpInside" id="ztJ-O2-SG4"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tH8-VG-n8N">
+                                <rect key="frame" x="167.66666666666666" y="644" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="RoO-gg-L3J"/>
+                                    <constraint firstAttribute="width" constant="40" id="ujX-HW-4oI"/>
+                                </constraints>
+                                <state key="normal" image="GetDirection"/>
+                                <connections>
+                                    <action selector="goButtonPressed" destination="hMv-lp-pFb" eventType="touchUpInside" id="sl5-dm-fid"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="CkF-90-IRt" firstAttribute="bottom" secondItem="tH8-VG-n8N" secondAttribute="bottom" constant="40" id="2gc-2E-7RY"/>
                             <constraint firstItem="Kpg-MN-vne" firstAttribute="top" secondItem="UaJ-IQ-8iD" secondAttribute="bottom" constant="-171" id="4xG-HH-9N2"/>
                             <constraint firstItem="Kpg-MN-vne" firstAttribute="leading" secondItem="CkF-90-IRt" secondAttribute="leading" id="B9a-mX-cEL"/>
                             <constraint firstItem="CkF-90-IRt" firstAttribute="trailing" secondItem="stQ-IE-Ykl" secondAttribute="trailing" constant="40" id="HUf-gi-788"/>
@@ -295,6 +307,7 @@
                             <constraint firstItem="SF5-w1-jVa" firstAttribute="top" secondItem="CkF-90-IRt" secondAttribute="top" constant="40" id="owd-00-uIQ"/>
                             <constraint firstItem="CkF-90-IRt" firstAttribute="bottom" secondItem="stQ-IE-Ykl" secondAttribute="bottom" constant="110" id="qaU-mD-Aad"/>
                             <constraint firstItem="Kpg-MN-vne" firstAttribute="top" secondItem="Zol-eX-1AG" secondAttribute="top" id="yN7-hg-mbR"/>
+                            <constraint firstItem="tH8-VG-n8N" firstAttribute="centerX" secondItem="Zol-eX-1AG" secondAttribute="centerX" id="zlg-Sf-yg9"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="CkF-90-IRt"/>
                     </view>
@@ -302,6 +315,7 @@
                     <connections>
                         <outlet property="addressLabel" destination="UaJ-IQ-8iD" id="lh7-dn-ZgL"/>
                         <outlet property="doneButton" destination="fya-aE-qm5" id="HRv-6G-BLi"/>
+                        <outlet property="goButton" destination="tH8-VG-n8N" id="AUY-Xi-mFL"/>
                         <outlet property="mapPinImage" destination="uhq-J0-fU3" id="BzH-jp-2ZO"/>
                         <outlet property="mapView" destination="Kpg-MN-vne" id="yT6-LH-i4n"/>
                     </connections>
@@ -493,6 +507,7 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="AZ" width="25" height="24"/>
+        <image name="GetDirection" width="50" height="50"/>
         <image name="Location" width="128" height="128"/>
         <image name="Photo" width="194.66667175292969" height="195.66667175292969"/>
         <image name="Pin" width="40" height="40"/>
