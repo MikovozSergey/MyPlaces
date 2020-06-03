@@ -128,6 +128,9 @@ extension MapViewController: MKMapViewDelegate {
         
         geocoder.cancelGeocode()
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            
+        }
         geocoder.reverseGeocodeLocation(center) { (placemarks, error) in
             
             if let error = error {
@@ -149,9 +152,7 @@ extension MapViewController: MKMapViewDelegate {
                 } else {
                     self.addressLabel.text = ""
                 }
-                
             }
-            
         }
     }
     
@@ -160,6 +161,8 @@ extension MapViewController: MKMapViewDelegate {
         let renderer = MKPolylineRenderer(overlay: overlay as! MKPolyline)
         
         renderer.strokeColor = .green
+        renderer.lineWidth = 5
+        
         
         return renderer
     }

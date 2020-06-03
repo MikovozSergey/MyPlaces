@@ -100,6 +100,7 @@
 				F9F7A3ED2487AF65004232DD /* Support Files */,
 				F9F7A3EC2487AF3C004232DD /* Helpers */,
 				F91C58992429F9AC00ADE10A /* Info.plist */,
+				F91C58942429F9AC00ADE10A /* Assets.xcassets */,
 			);
 			path = MyPlaces;
 			sourceTree = "<group>";
@@ -138,7 +139,6 @@
 			children = (
 				F91C588B2429F9AB00ADE10A /* AppDelegate.swift */,
 				F91C588D2429F9AB00ADE10A /* SceneDelegate.swift */,
-				F91C58942429F9AC00ADE10A /* Assets.xcassets */,
 			);
 			path = "Support Files";
 			sourceTree = "<group>";

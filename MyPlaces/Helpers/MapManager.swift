@@ -14,7 +14,7 @@ class MapManager {
     let locationManager = CLLocationManager() // менеджер который будет отслеживать местоположение пользователя
     
     private var placeCoordinate: CLLocationCoordinate2D?
-    private let regionInMeters = 1000.00 // область в метрах
+    private let regionInMeters = 2000.00 // область в метрах
     private var directionsArray: [MKDirections] = [] // массив маршрутов, чтобы потом из него удалять старые маршруты, при движении пользователя
     
     // MARK: Mark of Place
@@ -48,7 +48,7 @@ class MapManager {
         }
     }
     
-    // MARK: проверка доступности сервисов геолокации
+    // MARK: Проверка доступности сервисов геолокации
     func checkLocationServices(mapView: MKMapView, segueIdentifier: String, closure: () -> ()) { // метод для проверки включенных на устройстве функций для нахождения геолокации
         
         if CLLocationManager.locationServicesEnabled() { // если геолокация доступна
@@ -135,10 +135,10 @@ class MapManager {
                 
                 //  расстояние и время в пути
                 let distance = String(format: "%.1f", route.distance / 1000) // округляем дистанцию до км.
-                let timeInterval = route.expectedTravelTime // время
+                let timeInterval = route.expectedTravelTime / 60 // время
                 
                 print("Расстояние до места: \(distance) км.")
-                print("Время в пути составит: \(timeInterval) секунд.")
+                print("Время в пути составит: \(timeInterval) минут.")
             }
         }
     }
